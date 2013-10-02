@@ -1,0 +1,126 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family: 'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color:#BD0026;
+}
+
+a {
+  background: #BD0026;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0;
+  left:0;
+}
+</style><script type='text/javascript'>
+window.onload = function() {
+    var s = document.getElementsByTagName('div'), cur = 0;
+    if (!s) return;
+    function go(n) {
+        cur = n;
+        var i = 1e3, e = s[n];
+        for (var k = 0; k < s.length; k++) s[k].style.display = 'none';
+        e.style.display = 'inline';
+        e.style.fontSize = i + 'px';
+        if (e.firstChild.nodeName === 'IMG') {
+            document.body.style.backgroundImage = 'url(' + e.firstChild.src + ')';
+            e.firstChild.style.display = 'none';
+        } else {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundColor = e.style.backgroundColor;
+        }
+        while (
+            e.offsetWidth > window.innerWidth ||
+            e.offsetHeight > window.innerHeight) {
+            e.style.fontSize = (i -= 10) + 'px';
+            if (i < 0) break;
+        }
+        e.style.marginTop = ((window.innerHeight - e.offsetHeight) / 2) + 'px';
+        if (window.location.hash !== n) window.location.hash = n;
+        document.title = e.textContent || e.innerText;
+    }
+    document.onclick = function() {
+        go(++cur % (s.length));
+    };
+    document.onkeydown = function(e) {
+        (e.which === 39) && go(Math.min(s.length - 1, ++cur));
+        (e.which === 37) && go(Math.max(0, --cur));
+    };
+    function parse_hash() {
+        return Math.max(Math.min(
+            s.length - 1,
+            parseInt(window.location.hash.substring(1), 10)), 0);
+    }
+    if (window.location.hash) cur = parse_hash() || cur;
+    window.onhashchange = function() {
+        var c = parse_hash();
+        if (c !== cur) go(c);
+    };
+
+    go(cur);
+};
+</script></head><body>
+<div>Playing with <em>fire</em></div>
+<div>Normalizing USFS <em>fire data</em> for use in modern <em>maps</em></div>
+<div>Adam Roberts <em>@abenroberts</em> abenrob on github</div>
+<div>so there I was one day...</div>
+<div>...playing with <em>maps</em></div>
+<div>@geografa had a neat idea</div>
+<div><img src="geografa_screenshot.png"/></div>
+<div><em>but</em></div>
+<div><img src="geografa_repo.png"/></div>
+<div>csv fine for one pull</div>
+<div><em>but tomorrow I need to pull new data</em></div>
+<div>maybe I can load the csv from the remote USFS source...</div>
+<div><em>NO</em></div>
+<div>CORS = <em>&#9785;</em></div>
+<div>maybe I can write a proxy server and stand it up on my server and...</div>
+<div><em>NO</em></div>
+<div>then only I could use it - that would be <em>cray-cray</em></div>
+<div>maybe I could...</div>
+<div><em>NO</em></div>
+<div>what I needed was data that I could just <em>USE</em></div>
+<div>I just want the <em>data</em></div>
+<div>(and any excuse to play around with something cool)</div>
+<div><em>geoJSON</em> is what I want</div>
+<div>geoJSON <a href="http://geojson.io/#id=github:abenrob/wildfire-mapper/blob/master/data/fires.geojson&map=6/41.949/-116.530">demo</a></div>
+<div>how can I create a tool that will fetch geoJSON for any day I want (live from USFS - <em>no daily pulls!</em>)</div>
+<div>enter <em>Flask</em></div>
+<div><em>Flask</em> is micro</div>
+<div><em>Flask</em> is python</div>
+<div>with Flask I can create a single-resource API that translates USFS csv to <em>geoJSON</em></div>
+<div>in <em>57 lines</em> of code</div>
+<div>this is boring, show us some <em>code</em></div>
+<div><img src="app.png" /></div>
+<div>api <a href="http://fire-api.herokuapp.com/">demo</a></div>
+<div>umm...ok, that is boring too...show us some <em>maps!</em></div>
+<div><img src="wf.png" /></div>
+<div>by-date <a href="http://abenrob.github.io/wildfire-mapper/">demo</a></div>
+<div><img src="wfcompare.png" /></div>
+<div>all-data <a href="http://abenrob.github.io/us_fire_compare/">demo</a></div>
+<div>Adam Roberts <em>@abenroberts</em> abenrob on github</div>
+
